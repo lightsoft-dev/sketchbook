@@ -8,6 +8,7 @@
 import type { JSX } from "react";
 import type { PageDocument } from "@/document/types";
 import { compileDocument } from "./style/compiler";
+import { SK_RESET } from "./style/reset";
 import { NodeRenderer, type RenderMode } from "./NodeRenderer";
 
 export function PageRenderer({
@@ -33,11 +34,3 @@ export function PageRenderer({
     </>
   );
 }
-
-/** 사용자 콘텐츠 영역의 최소 리셋 — 에디터 UI 스타일과 무관하게 일관된 기준. */
-const SK_RESET = `
-[data-node-id]{box-sizing:border-box;margin:0;}
-[data-node-id]img{display:block;max-width:100%;}
-button[data-node-id]{border:0;cursor:pointer;font:inherit;}
-a[data-node-id]{text-decoration:none;}
-`;

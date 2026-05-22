@@ -17,6 +17,10 @@ export interface RenderContext {
   /** compileDocument 결과 — 노드 id → 클래스명. */
   classNames: Record<NodeId, string>;
   mode: RenderMode;
+  /** edit 모드 — 현재 선택된 노드 id 집합. */
+  selectedIds?: Set<NodeId>;
+  /** edit 모드 — 현재 호버 중인 노드 id. */
+  hoveredId?: NodeId | null;
 }
 
 export function NodeRenderer({
@@ -31,7 +35,12 @@ export function NodeRenderer({
 
   const className = ctx.classNames[nodeId] || undefined;
   // data-node-id 는 에디터가 DOM↔노드를 잇는 핸들. view 에서도 무해해 항상 부여.
-  const dataAttr = { "data-node-id": node.id };
+  // edit 모드에서는 선택/호버 상태를 데이터 속성으로 노출 → CSS 가 아웃라인을 그린다.
+  const dataAttr: Record<string, string> = { "data-node-id": node.id };
+  if (ctx.mode === "edit") {
+    if (ctx.selectedIds?.has(node.id)) dataAttr["data-sk-selected"] = "";
+    if (ctx.hoveredId === node.id) dataAttr["data-sk-hover"] = "";
+  }
 
   switch (node.type) {
     case "Frame": {
