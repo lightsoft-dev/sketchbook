@@ -17,12 +17,14 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.98.0",
     "@prisma/client": "^6.19.3",
     "immer": "^11.1.8",
     "nanoid": "^5.1.11",
     "next": "16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "replicate": "^1.4.0",
     "zod": "^4.4.3",
     "zustand": "^5.0.13"
   },

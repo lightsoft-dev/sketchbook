@@ -10,6 +10,8 @@
 import type { BoxValue, Length, Node, StyleProps } from "@/document/types";
 import { applyLayoutModeChange } from "../canvas/layout-convert";
 import { useEditorStore } from "../state/store";
+import { AICopyButton } from "./AICopyButton";
+import { AIImageButton } from "./AIImageButton";
 import {
   ColorField,
   Row,
@@ -92,6 +94,13 @@ export function Inspector() {
             value={node.props.text}
             onChange={(e) => updateProps(id, { text: e.target.value })}
           />
+          <div className="flex justify-end">
+            <AICopyButton
+              text={node.props.text}
+              context={node.name}
+              onApply={(t) => updateProps(id, { text: t })}
+            />
+          </div>
           <Row label="태그">
             <SelectField
               value={node.props.as ?? "p"}
@@ -117,6 +126,13 @@ export function Inspector() {
               onChange={(v) => updateProps(id, { label: v })}
             />
           </Row>
+          <div className="flex justify-end">
+            <AICopyButton
+              text={node.props.label}
+              context={node.name}
+              onApply={(t) => updateProps(id, { label: t })}
+            />
+          </div>
           <Row label="링크">
             <TextField
               value={node.props.href ?? ""}
@@ -136,6 +152,7 @@ export function Inspector() {
               onChange={(v) => updateProps(id, { src: v || undefined })}
             />
           </Row>
+          <AIImageButton onApply={(url) => updateProps(id, { src: url })} />
           <Row label="대체 텍스트">
             <TextField
               value={node.props.alt}

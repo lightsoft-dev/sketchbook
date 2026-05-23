@@ -7,6 +7,7 @@
 import { useState, useTransition } from "react";
 import { BREAKPOINTS } from "@/document/types";
 import { publishPage } from "@/server/actions/page-actions";
+import { AIGenerateButton } from "./AIGenerateButton";
 import { useEditorStore } from "./state/store";
 
 export function Toolbar() {
@@ -95,6 +96,7 @@ export function Toolbar() {
         >
           ↷
         </button>
+        <AIGenerateButton />
         <a
           href={`/p/${slug || "home"}`}
           target="_blank"

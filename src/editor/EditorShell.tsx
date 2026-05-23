@@ -7,6 +7,7 @@
 
 import { useEffect } from "react";
 import { CanvasStage } from "./canvas/CanvasStage";
+import { ChatPanel } from "./panels/ChatPanel";
 import { ComponentPalette } from "./panels/ComponentPalette";
 import { Inspector } from "./panels/Inspector";
 import { LayersPanel } from "./panels/LayersPanel";
@@ -38,6 +39,7 @@ export function EditorShell() {
           <Inspector />
         </aside>
       </div>
+      <ChatPanel />
     </div>
   );
 }
