@@ -52,6 +52,7 @@ export function SelectionOverlay({ canvasDoc }: { canvasDoc: Document | null }) 
   const selectedId = useEditorStore((s) => s.selectedIds[0]) as NodeId | undefined;
   const doc = useEditorStore((s) => s.doc);
   const activeBp = useEditorStore((s) => s.activeBreakpoint);
+  const editingTextId = useEditorStore((s) => s.editingTextId);
   const updateStyle = useEditorStore((s) => s.updateStyle);
 
   const [rect, setRect] = useState<Rect | null>(null);
@@ -111,6 +112,8 @@ export function SelectionOverlay({ canvasDoc }: { canvasDoc: Document | null }) 
     };
   }, [canvasDoc, selectedId, doc, activeBp]);
 
+  // 인라인 텍스트 편집 중에는 핸들/외곽선을 숨겨 텍스트 조작에 집중하게 한다.
+  if (editingTextId) return null;
   if (!rect || !selectedId || !node || isRoot) return null;
 
   // ── 리사이즈 핸들 드래그 ──

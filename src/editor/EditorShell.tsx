@@ -42,11 +42,12 @@ export function EditorShell() {
   );
 }
 
-/** 전역 키보드 단축키 — Undo/Redo, 선택 노드 삭제. */
+/** 전역 키보드 단축키 — Undo/Redo, 선택 노드 삭제, 복제. */
 function useKeyboardShortcuts() {
   const undo = useEditorStore((s) => s.undo);
   const redo = useEditorStore((s) => s.redo);
   const deleteNode = useEditorStore((s) => s.deleteNode);
+  const duplicateNode = useEditorStore((s) => s.duplicateNode);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -66,6 +67,15 @@ function useKeyboardShortcuts() {
         else undo();
         return;
       }
+      if (mod && e.key.toLowerCase() === "d") {
+        // 선택 노드 복제 (브라우저 북마크 단축키 가로채기).
+        const sel = useEditorStore.getState().selectedIds[0];
+        if (sel) {
+          e.preventDefault();
+          duplicateNode(sel);
+        }
+        return;
+      }
       if (!inField && (e.key === "Delete" || e.key === "Backspace")) {
         const sel = useEditorStore.getState().selectedIds[0];
         if (sel) {
@@ -76,5 +86,5 @@ function useKeyboardShortcuts() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [undo, redo, deleteNode]);
+  }, [undo, redo, deleteNode, duplicateNode]);
 }

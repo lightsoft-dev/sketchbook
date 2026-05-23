@@ -1,0 +1,194 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: ✦
+        - generic [ref=e6]: 어딘가 로스터리
+        - generic "저장되지 않음" [ref=e184]
+      - generic [ref=e7]:
+        - button "Desktop" [ref=e8]
+        - button "Tablet" [ref=e9]
+        - button "Mobile" [ref=e10]
+      - generic [ref=e11]:
+        - button "↶" [ref=e12]
+        - button "↷" [disabled] [ref=e13]
+        - link "미리보기" [ref=e14] [cursor=pointer]:
+          - /url: /demo
+    - generic [ref=e15]:
+      - complementary [ref=e16]:
+        - generic [ref=e17]:
+          - generic [ref=e18]: 추가
+          - generic [ref=e19]:
+            - button "▦ Frame" [ref=e20]:
+              - generic [ref=e21]: ▦
+              - text: Frame
+            - button "T Text" [ref=e22]:
+              - generic [ref=e23]: T
+              - text: Text
+            - button "▣ Image" [ref=e24]:
+              - generic [ref=e25]: ▣
+              - text: Image
+            - button "▭ Button" [ref=e26]:
+              - generic [ref=e27]: ▭
+              - text: Button
+        - generic [ref=e29]:
+          - generic [ref=e30]: 레이어
+          - generic [ref=e31]:
+            - generic [ref=e49]:
+              - generic [ref=e50]: ▦
+              - generic [ref=e51]: Page
+            - generic [ref=e52]:
+              - generic [ref=e53]: ▦
+              - generic [ref=e54]: Hero
+            - generic [ref=e55]:
+              - generic [ref=e56]: T
+              - generic [ref=e57]: Hero Title
+            - generic [ref=e58]:
+              - generic [ref=e59]: T
+              - generic [ref=e60]: Hero Subtitle
+            - generic [ref=e61]:
+              - generic [ref=e62]: ▭
+              - generic [ref=e63]: Hero CTA
+            - generic [ref=e64]:
+              - generic [ref=e65]: ▦
+              - generic [ref=e66]: Features
+            - generic [ref=e67]:
+              - generic [ref=e68]: ▦
+              - generic [ref=e69]: Feature — 싱글 오리진
+              - button "✕" [ref=e185]
+            - generic [ref=e70]:
+              - generic [ref=e71]: T
+              - generic [ref=e72]: Feature Title
+            - generic [ref=e73]:
+              - generic [ref=e74]: T
+              - generic [ref=e75]: Feature Body
+            - generic [ref=e76]:
+              - generic [ref=e77]: ▦
+              - generic [ref=e78]: Feature — 느린 공간
+            - generic [ref=e79]:
+              - generic [ref=e80]: T
+              - generic [ref=e81]: Feature Title
+            - generic [ref=e82]:
+              - generic [ref=e83]: T
+              - generic [ref=e84]: Feature Body
+            - generic [ref=e85]:
+              - generic [ref=e86]: ▦
+              - generic [ref=e87]: Feature — 매일 베이킹
+            - generic [ref=e88]:
+              - generic [ref=e89]: T
+              - generic [ref=e90]: Feature Title
+            - generic [ref=e91]:
+              - generic [ref=e92]: T
+              - generic [ref=e93]: Feature Body
+            - generic [ref=e94]:
+              - generic [ref=e95]: ▦
+              - generic [ref=e96]: CTA
+            - generic [ref=e97]:
+              - generic [ref=e98]: T
+              - generic [ref=e99]: CTA Title
+            - generic [ref=e100]:
+              - generic [ref=e101]: T
+              - generic [ref=e102]: CTA Address
+            - generic [ref=e103]:
+              - generic [ref=e104]: ▭
+              - generic [ref=e105]: CTA Button
+      - main [ref=e35]:
+        - iframe [ref=e37]:
+          - main [ref=f1e2]:
+            - generic [ref=f1e3]:
+              - heading "어딘가 로스터리" [level=1] [ref=f1e23]
+              - paragraph [ref=f1e5]: 도심 속 작은 로스터리. 매일 아침 직접 볶은 원두로 내립니다.
+              - button "메뉴 보기" [ref=f1e6] [cursor=pointer]
+            - generic [ref=f1e7]:
+              - generic [ref=f1e8]:
+                - heading "싱글 오리진" [level=3] [ref=f1e9]
+                - paragraph [ref=f1e10]: 산지별 개성이 살아 있는 원두만 골라 소량으로 로스팅합니다.
+              - generic [ref=f1e11]:
+                - heading "느린 공간" [level=3] [ref=f1e12]
+                - paragraph [ref=f1e13]: 분주한 도심에서 잠시 멈춰 갈 수 있는 조용한 자리를 준비했어요.
+              - generic [ref=f1e14]:
+                - heading "매일 베이킹" [level=3] [ref=f1e15]
+                - paragraph [ref=f1e16]: 커피와 어울리는 구움과자를 매장에서 직접 굽습니다.
+            - generic [ref=f1e17]:
+              - heading "오늘, 한 잔 하러 오세요" [level=2] [ref=f1e18]
+              - paragraph [ref=f1e19]: 서울시 어딘가 1-2 · 매일 09:00–21:00
+              - button "길찾기" [ref=f1e20] [cursor=pointer]
+      - complementary [ref=e38]:
+        - generic [ref=e39]:
+          - generic [ref=e107]:
+            - generic [ref=e109]: Frame
+            - textbox [ref=e110]: Feature — 싱글 오리진
+          - generic [ref=e186]:
+            - generic [ref=e187]: 레이아웃
+            - generic [ref=e188]:
+              - generic [ref=e189]:
+                - generic [ref=e190]: 방향
+                - generic [ref=e192]:
+                  - button "방향 가로" [ref=e193]: 세로
+                  - button "가로" [ref=e194]
+              - generic [ref=e195]:
+                - generic [ref=e196]: 간격
+                - textbox "간격" [ref=e198]:
+                  - /placeholder: "0"
+                  - text: "8"
+              - generic [ref=e199]:
+                - generic [ref=e200]: 가로 정렬
+                - combobox "가로 정렬" [ref=e202]:
+                  - option "시작" [selected]
+                  - option "가운데"
+                  - option "끝"
+                  - option "양끝"
+                  - option "늘이기"
+              - generic [ref=e203]:
+                - generic [ref=e204]: 세로 정렬
+                - combobox "세로 정렬" [ref=e206]:
+                  - option "시작" [selected]
+                  - option "가운데"
+                  - option "끝"
+                  - option "양끝"
+                  - option "늘이기"
+          - generic [ref=e119]:
+            - generic [ref=e120]: 크기
+            - generic [ref=e121]:
+              - generic [ref=e122]:
+                - generic [ref=e123]: 너비
+                - textbox "너비" [ref=e125]:
+                  - /placeholder: auto
+                  - text: "0"
+              - generic [ref=e126]:
+                - generic [ref=e127]: 높이
+                - textbox "높이" [ref=e129]:
+                  - /placeholder: auto
+              - generic [ref=e130]:
+                - generic [ref=e131]: 배치
+                - generic [ref=e133]:
+                  - button "배치 자유" [ref=e134]: 흐름
+                  - button "자유" [ref=e135]
+          - generic [ref=e136]:
+            - generic [ref=e137]: 여백
+            - generic [ref=e138]:
+              - generic [ref=e139]:
+                - generic [ref=e140]: 안쪽(padding)
+                - textbox "안쪽(padding)" [ref=e142]:
+                  - /placeholder: "0"
+                  - text: "28"
+              - generic [ref=e143]:
+                - generic [ref=e144]: 바깥(margin)
+                - textbox "바깥(margin)" [ref=e146]:
+                  - /placeholder: "0"
+          - generic [ref=e171]:
+            - generic [ref=e172]: 외형
+            - generic [ref=e173]:
+              - generic [ref=e174]:
+                - generic [ref=e175]: 배경색
+                - generic [ref=e177]:
+                  - 'textbox "배경색 #ffffff" [ref=e207] [cursor=pointer]': "#ffffff"
+                  - textbox "#000000" [ref=e179]: "#ffffff"
+              - generic [ref=e180]:
+                - generic [ref=e181]: 모서리
+                - textbox "모서리" [ref=e183]:
+                  - /placeholder: "0"
+                  - text: "14"
+  - button "Open Next.js Dev Tools" [ref=e45] [cursor=pointer]:
+    - img [ref=e46]
+  - alert [ref=e106]

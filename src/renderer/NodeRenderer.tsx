@@ -7,8 +7,8 @@
  * 렌더러는 `data-node-id` 만 노출한다.
  */
 
-import type { JSX } from "react";
-import type { Node, NodeId, PageDocument } from "@/document/types";
+import type { ComponentType, JSX } from "react";
+import type { Node, NodeId, PageDocument, TextNode } from "@/document/types";
 
 export type RenderMode = "view" | "edit";
 
@@ -21,6 +21,10 @@ export interface RenderContext {
   selectedIds?: Set<NodeId>;
   /** edit 모드 — 현재 호버 중인 노드 id. */
   hoveredId?: NodeId | null;
+  /** edit 모드 — 인라인 편집 중인 텍스트 노드 id. */
+  editingTextId?: NodeId | null;
+  /** edit 모드 — 인라인 텍스트 편집을 담당할 컴포넌트(에디터에서 주입). */
+  EditableText?: ComponentType<{ node: TextNode; className?: string }>;
 }
 
 export function NodeRenderer({
@@ -55,6 +59,15 @@ export function NodeRenderer({
     }
 
     case "Text": {
+      // 인라인 편집 중이면 에디터가 주입한 EditableText 컴포넌트로 위임.
+      if (
+        ctx.mode === "edit" &&
+        ctx.editingTextId === node.id &&
+        ctx.EditableText
+      ) {
+        const Editable = ctx.EditableText;
+        return <Editable node={node} className={className} />;
+      }
       const Tag = (node.props.as ?? "p") as keyof JSX.IntrinsicElements;
       return (
         <Tag className={className} {...dataAttr}>

@@ -12,6 +12,8 @@ import { applyPatches, enablePatches, produceWithPatches, type Patch } from "imm
 import { create } from "zustand";
 import type { BreakpointId, Node, NodeId, PageDocument } from "@/document/types";
 import { createNode, type CreateNodeOptions } from "@/document/defaults";
+import { newNodeId } from "@/document/ids";
+import { getDescendants } from "@/document/tree";
 import type { NodeType } from "@/document/types";
 import {
   cmdDeleteNode,
@@ -48,6 +50,8 @@ export interface EditorState {
   selectedIds: NodeId[];
   hoveredId: NodeId | null;
   activeBreakpoint: BreakpointId;
+  /** 인라인 편집 중인 텍스트 노드 id. */
+  editingTextId: NodeId | null;
   /** 더티 플래그 — autosave 트리거용. */
   dirty: boolean;
 
@@ -61,6 +65,7 @@ export interface EditorState {
   // ── 문서 변경 액션 ──
   insertNode: (type: NodeType, parentId: NodeId, index?: number) => NodeId | null;
   deleteNode: (nodeId: NodeId) => void;
+  duplicateNode: (nodeId: NodeId) => NodeId | null;
   moveNode: (nodeId: NodeId, newParentId: NodeId, index: number) => void;
   reorderChild: (parentId: NodeId, from: number, to: number) => void;
   updateStyle: (
@@ -83,6 +88,7 @@ export interface EditorState {
   select: (nodeId: NodeId | null) => void;
   setHovered: (nodeId: NodeId | null) => void;
   setBreakpoint: (bp: BreakpointId) => void;
+  setEditingText: (nodeId: NodeId | null) => void;
   loadDocument: (doc: PageDocument) => void;
   markSaved: () => void;
 }
@@ -105,6 +111,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   selectedIds: [],
   hoveredId: null,
   activeBreakpoint: "base",
+  editingTextId: null,
   dirty: false,
   past: [],
   future: [],
@@ -143,6 +150,39 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   deleteNode: (nodeId) => {
     get().commit(cmdDeleteNode(nodeId));
     set((s) => ({ selectedIds: pruneSelection(s.selectedIds, s.doc) }));
+  },
+
+  duplicateNode: (nodeId) => {
+    const { doc } = get();
+    const original = doc.nodes[nodeId];
+    if (!original || nodeId === doc.rootId || !original.parentId) return null;
+
+    // 노드 + 후손 전체를 새 id 로 복제.
+    const idMap: Record<NodeId, NodeId> = { [nodeId]: newNodeId() };
+    for (const id of getDescendants(doc.nodes, nodeId)) idMap[id] = newNodeId();
+
+    const cloneOne = (id: NodeId, parentNewId: NodeId | null): Node => {
+      const src = doc.nodes[id];
+      const newId = idMap[id];
+      const clone: Node = JSON.parse(JSON.stringify(src));
+      clone.id = newId;
+      clone.parentId = parentNewId;
+      clone.children = src.children.map((cid) => idMap[cid]) as Node["children"];
+      return clone;
+    };
+    const newRoot = cloneOne(nodeId, original.parentId);
+    const descendantClones: Record<NodeId, Node> = {};
+    for (const did of getDescendants(doc.nodes, nodeId)) {
+      const newParentId = idMap[doc.nodes[did].parentId as NodeId];
+      descendantClones[idMap[did]] = cloneOne(did, newParentId);
+    }
+    // 원본 다음 인덱스에 삽입.
+    const parent = doc.nodes[original.parentId];
+    if (parent.type !== "Frame") return null;
+    const idx = parent.children.indexOf(nodeId) + 1;
+    get().commit(cmdInsertNode(original.parentId, newRoot, descendantClones, idx));
+    set({ selectedIds: [newRoot.id] });
+    return newRoot.id;
   },
 
   moveNode: (nodeId, newParentId, index) => {
@@ -217,11 +257,16 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     set({ activeBreakpoint: bp });
   },
 
+  setEditingText: (nodeId) => {
+    set({ editingTextId: nodeId });
+  },
+
   loadDocument: (doc) => {
     set({
       doc,
       selectedIds: [],
       hoveredId: null,
+      editingTextId: null,
       past: [],
       future: [],
       dirty: false,
