@@ -1,0 +1,63 @@
+// Sketchbook MVP — 페이지/버전 모델.
+// 인증·미디어·AI 사용 추적은 추후 추가. 우선 저장/게시 흐름만 가져간다.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PageStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Site {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+
+  pages Page[]
+}
+
+model Page {
+  id     String     @id @default(cuid())
+  siteId String
+  slug   String
+  title  String
+  status PageStatus @default(DRAFT)
+
+  // 빠른 접근용 포인터 — 조인 횟수를 줄인다.
+  draftVersionId     String? @unique
+  publishedVersionId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  site             Site          @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  versions         PageVersion[] @relation("PageToVersions")
+  draftVersion     PageVersion?  @relation("DraftVersion", fields: [draftVersionId], references: [id])
+  publishedVersion PageVersion?  @relation("PublishedVersion", fields: [publishedVersionId], references: [id])
+
+  @@unique([siteId, slug])
+  @@index([siteId, status])
+}
+
+model PageVersion {
+  id            String   @id @default(cuid())
+  pageId        String
+  document      Json
+  schemaVersion Int      @default(1)
+  label         String?
+  createdAt     DateTime @default(now())
+
+  page        Page  @relation("PageToVersions", fields: [pageId], references: [id], onDelete: Cascade)
+  draftOf     Page? @relation("DraftVersion")
+  publishedOf Page? @relation("PublishedVersion")
+
+  @@index([pageId, createdAt])
+}

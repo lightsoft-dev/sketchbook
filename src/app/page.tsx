@@ -44,7 +44,7 @@ export default function Home() {
           에디터 열기
         </Link>
         <Link
-          href="/demo"
+          href="/p/home"
           style={{
             background: "#fff",
             color: "#1a1a1a",
@@ -55,7 +55,7 @@ export default function Home() {
             border: "1px solid #ddd",
           }}
         >
-          게시 페이지 데모
+          게시된 페이지 보기
         </Link>
       </div>
     </main>

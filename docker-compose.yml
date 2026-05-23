@@ -1,0 +1,22 @@
+# 로컬 개발용 Postgres. 다른 컨테이너와 충돌 피해 포트 5436 사용.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sketchbook-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sketchbook
+      POSTGRES_PASSWORD: sketchbook
+      POSTGRES_DB: sketchbook
+    ports:
+      - "5436:5432"
+    volumes:
+      - sketchbook-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sketchbook -d sketchbook"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  sketchbook-pgdata:

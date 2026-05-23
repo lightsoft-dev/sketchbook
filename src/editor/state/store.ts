@@ -55,6 +55,12 @@ export interface EditorState {
   /** 더티 플래그 — autosave 트리거용. */
   dirty: boolean;
 
+  // ── 페이지 식별/저장 상태 ──
+  pageId: string | null;
+  saveState: "idle" | "saving" | "saved" | "error";
+  lastSavedAt: string | null;
+  saveError: string | null;
+
   // ── 히스토리 ──
   past: HistoryEntry[];
   future: HistoryEntry[];
@@ -89,7 +95,8 @@ export interface EditorState {
   setHovered: (nodeId: NodeId | null) => void;
   setBreakpoint: (bp: BreakpointId) => void;
   setEditingText: (nodeId: NodeId | null) => void;
-  loadDocument: (doc: PageDocument) => void;
+  loadDocument: (doc: PageDocument, pageId?: string | null) => void;
+  setSaveState: (state: "idle" | "saving" | "saved" | "error", info?: { savedAt?: string; error?: string }) => void;
   markSaved: () => void;
 }
 
@@ -113,6 +120,10 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   activeBreakpoint: "base",
   editingTextId: null,
   dirty: false,
+  pageId: null,
+  saveState: "idle",
+  lastSavedAt: null,
+  saveError: null,
   past: [],
   future: [],
 
@@ -261,17 +272,27 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     set({ editingTextId: nodeId });
   },
 
-  loadDocument: (doc) => {
+  loadDocument: (doc, pageId) => {
     set({
       doc,
+      pageId: pageId ?? null,
       selectedIds: [],
       hoveredId: null,
       editingTextId: null,
       past: [],
       future: [],
       dirty: false,
+      saveState: "idle",
+      saveError: null,
     });
   },
+
+  setSaveState: (state, info) =>
+    set({
+      saveState: state,
+      lastSavedAt: info?.savedAt ?? (state === "saved" ? new Date().toISOString() : undefined),
+      saveError: info?.error ?? null,
+    }),
 
   markSaved: () => set({ dirty: false }),
 }));
