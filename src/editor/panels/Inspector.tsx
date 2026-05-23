@@ -8,6 +8,7 @@
 "use client";
 
 import type { BoxValue, Length, Node, StyleProps } from "@/document/types";
+import { applyLayoutModeChange } from "../canvas/layout-convert";
 import { useEditorStore } from "../state/store";
 import {
   ColorField,
@@ -37,7 +38,6 @@ export function Inspector() {
   const updateStyle = useEditorStore((s) => s.updateStyle);
   const updateProps = useEditorStore((s) => s.updateProps);
   const rename = useEditorStore((s) => s.rename);
-  const setLayoutMode = useEditorStore((s) => s.setLayoutMode);
 
   const node = selectedIds[0] ? doc.nodes[selectedIds[0]] : undefined;
 
@@ -206,7 +206,7 @@ export function Inspector() {
                 { value: "flow", label: "흐름" },
                 { value: "absolute", label: "자유" },
               ]}
-              onChange={(v) => setLayoutMode(id, v)}
+              onChange={(v) => applyLayoutModeChange(id, v)}
             />
           </Row>
         )}

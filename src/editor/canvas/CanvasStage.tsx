@@ -14,13 +14,13 @@ import { SK_RESET } from "@/renderer/style/reset";
 import { NodeRenderer, type RenderContext } from "@/renderer/NodeRenderer";
 import { useEditorStore } from "../state/store";
 import { CanvasFrame } from "./CanvasFrame";
+import { setCanvasDoc as registerCanvasDoc } from "./canvas-doc";
+import { SelectionOverlay } from "./SelectionOverlay";
 
-/** edit 모드 전용 CSS — 선택/호버 아웃라인. */
+/** edit 모드 전용 CSS — 호버만 표시(선택 표시는 SelectionOverlay 가 담당). */
 const EDITOR_CSS = `
 [data-node-id]{cursor:default;}
-[data-sk-hover]{outline:1.5px solid #93c5fd!important;outline-offset:-1.5px;}
-[data-sk-selected]{outline:2px solid #4f46e5!important;outline-offset:-2px;}
-[data-sk-selected][data-sk-hover]{outline:2px solid #4f46e5!important;}
+[data-sk-hover]:not([data-sk-selected]){outline:1.5px solid #93c5fd!important;outline-offset:-1.5px;}
 `;
 
 export function CanvasStage() {
@@ -38,7 +38,10 @@ export function CanvasStage() {
 
   const compiled = useMemo(() => compileDocument(doc), [doc]);
 
-  const onDocument = useCallback((d: Document) => setCanvasDoc(d), []);
+  const onDocument = useCallback((d: Document) => {
+    setCanvasDoc(d);
+    registerCanvasDoc(d);
+  }, []);
 
   // iframe 문서에 클릭(선택)/이동(호버) 리스너를 연결한다.
   useStageInteractions(canvasDoc, select, setHovered);
@@ -60,6 +63,7 @@ export function CanvasStage() {
           }}
         />
         <NodeRenderer nodeId={doc.rootId} ctx={ctx} />
+        <SelectionOverlay canvasDoc={canvasDoc} />
       </CanvasFrame>
     </div>
   );
@@ -80,11 +84,18 @@ function useStageInteractions(
     };
 
     const onClick = (e: MouseEvent) => {
+      const t = e.target as HTMLElement | null;
+      // 오버레이(핸들/스냅 가이드)에서 발생한 클릭은 무시한다.
+      if (t?.closest?.("[data-sk-overlay]")) return;
       // 캔버스 안의 링크/버튼 기본 동작을 막고 선택으로 해석.
       e.preventDefault();
-      select(nodeIdOf(e.target));
+      select(nodeIdOf(t));
     };
-    const onMove = (e: MouseEvent) => setHovered(nodeIdOf(e.target));
+    const onMove = (e: MouseEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (t?.closest?.("[data-sk-overlay]")) return;
+      setHovered(nodeIdOf(t));
+    };
     const onLeave = () => setHovered(null);
 
     canvasDoc.addEventListener("click", onClick, true);
