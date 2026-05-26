@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sketchbook
 
-## Getting Started
+Figma 처럼 비주얼 편집되고, 편집한 그대로 즉시 게시되는 CMS.
 
-First, run the development server:
+- **`apps`(root)** — Next.js 16 + Postgres 기반 풀스택 앱
+  - 비주얼 에디터(`/editor`): iframe 캔버스, 8방향 리사이즈, 자유 배치, 9분면 정렬, 인라인 텍스트 편집
+  - 게시 페이지(`/p/[slug]`): RSC + ISR, JS 거의 0, 사용된 Google Fonts 만 자동 로드
+  - AI 4기능: 카피라이팅 / 이미지 생성(Replicate Flux) / 페이지 생성(Claude Sonnet) / 채팅 편집(PatchOp)
+- **`packages/renderer`** — [`@sketchbook/renderer`](./packages/renderer/README.md) 독립 npm 패키지
+  - 노드 트리 `PageDocument` 모델 + 유니버설 렌더러
+  - 다른 Next.js 앱이 그대로 import 해서 게시 페이지를 렌더할 수 있음
+
+## 시작하기
 
 ```bash
+# Postgres 띄우기 (Docker)
+npm run db:up
+
+# DB 마이그레이션 + 시드(기본 사이트 + 홈 페이지)
+npx prisma migrate dev
+npm run db:seed
+
+# 개발 서버
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+브라우저:
+- 홈: http://localhost:3000
+- 에디터: http://localhost:3000/editor
+- 게시 페이지: http://localhost:3000/p/home
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 환경변수 (.env)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`.env.example` 복사 후 채워 넣으세요.
 
-## Learn More
+```
+DATABASE_URL="postgresql://sketchbook:sketchbook@localhost:5436/sketchbook"
+ANTHROPIC_API_KEY=               # 카피 / 페이지 생성 / 채팅 편집
+REPLICATE_API_TOKEN=             # AI 이미지 생성 (Flux schnell)
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 스택
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Next.js 16 (App Router, RSC + Server Actions)
+- React 19
+- TypeScript / Zod
+- Prisma + Postgres
+- Zustand + Immer (에디터 상태 + 패치 기반 undo/redo)
+- Tailwind v4 (에디터 UI 만)
+- tsup (renderer 패키지 빌드)
+- Vitest
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 패키지 빌드 / 게시
 
-## Deploy on Vercel
+```bash
+npm run build:renderer          # packages/renderer dist/ 생성
+cd packages/renderer
+npm run publish:dry             # 패키징 확인
+npm run publish:public          # npm 게시 (--access public)
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+자세한 사용·배포 가이드는 [packages/renderer/README.md](./packages/renderer/README.md) 참고.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 디렉터리
+
+```
+.
+├── docker-compose.yml          # Postgres 16
+├── prisma/                      # 스키마 + 마이그레이션 + 시드
+├── packages/
+│   └── renderer/               # @sketchbook/renderer (배포 가능)
+│       ├── src/
+│       │   ├── document/       # 타입·검증·트리·폰트 프리셋
+│       │   └── renderer/       # NodeRenderer·PageRenderer·StyleCompiler
+│       └── dist/               # 빌드 산출물 (gitignored)
+└── src/                         # 호스트 앱(에디터 + DB + AI)
+    ├── app/                     # Next 라우트
+    ├── editor/                  # iframe 캔버스·인스펙터·상태
+    ├── server/                  # actions + AI 서버 호출
+    └── lib/                     # Prisma 클라이언트 등
+```
+
+## 라이선스
+
+MIT.

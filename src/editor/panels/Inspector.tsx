@@ -12,6 +12,7 @@ import { applyLayoutModeChange } from "../canvas/layout-convert";
 import { useEditorStore } from "../state/store";
 import { AICopyButton } from "./AICopyButton";
 import { AIImageButton } from "./AIImageButton";
+import { AutoLayoutSection } from "./AutoLayoutSection";
 import {
   AlignmentGrid,
   BoxField,
@@ -162,6 +163,9 @@ export function Inspector() {
           </Row>
         </Section>
       )}
+
+      {/* 자동 정렬 — 빠른 액션 모음 */}
+      <AutoLayoutSection node={node} isRoot={isRoot} />
 
       {/* 레이아웃 (Frame) — 9분면 정렬 위젯 */}
       {node.type === "Frame" && (

@@ -1,15 +1,38 @@
 # @sketchbook/renderer
 
+[![npm version](https://img.shields.io/npm/v/@sketchbook/renderer.svg)](https://www.npmjs.com/package/@sketchbook/renderer)
+[![license](https://img.shields.io/npm/l/@sketchbook/renderer.svg)](./LICENSE)
+
 Sketchbook 의 **노드 트리 PageDocument 모델 + 유니버설 렌더러**.
 같은 JSON 문서가 어디서 렌더되든(서버·클라이언트·외부 앱) 정확히 같은 결과를 만들도록 설계된 라이브러리입니다.
+
+## 특징
+
+- 🎯 **단일 렌더러** — 한 컴포넌트가 RSC / 클라이언트 / iframe 어디서나 같은 출력
+- 🌐 **JS-0 게시** — 컴파일된 CSS 한 덩이만 인라인, 반응형은 media query 로 작동
+- 📐 **CSS 부분집합 모델** — 자체 레이아웃 엔진 없음. flexbox / positioning 그대로 매핑
+- 🔒 **닫힌 노드 타입 집합** — 임의 HTML 차단(XSS 방지) + Zod 참조 무결성 검증
+- 🅰️ **Google Fonts 자동 로드** — 문서에서 쓰이는 폰트만 추려 한 줄 `<link>` 주입
+- ↩️ **스키마 마이그레이션** — `schemaVersion` + `migrate()` 로 모델 진화 흡수
+- 📦 **트리쉐이크 친화** — `sideEffects: false`, ESM only, React peerDependency
 
 ## 설치
 
 ```bash
 npm install @sketchbook/renderer
+# or
+pnpm add @sketchbook/renderer
+# or
+yarn add @sketchbook/renderer
 ```
 
 `react@19` / `react-dom@19` 가 peerDependency 입니다 — 호스트 앱에 이미 있어야 합니다.
+
+### 요구사항
+
+- Node.js `>= 18.17`
+- React `^19`, React DOM `^19`
+- Next.js 사용 시: 14.x+ (App Router 권장). 모노레포 워크스페이스 형태로 사용한다면 `next.config.ts` 에 `transpilePackages: ["@sketchbook/renderer"]` 추가.
 
 ## 빠른 시작 (Next.js App Router 예시)
 
@@ -147,6 +170,35 @@ const doc: PageDocument = {
 const upgraded = migrate(rawDoc);
 ```
 
+## 메인테이너용 — 빌드 / 배포
+
+```bash
+# 빌드 산출물 생성
+npm run build
+
+# 패키징 결과 확인 (실제 publish 없이)
+npm run publish:dry
+
+# npm 공개 게시 (--access public 자동)
+npm run publish:public
+```
+
+스크롭이 다른 경우(예: `@your-org/sketchbook-renderer`)로 게시하려면
+`package.json` 의 `name` 만 바꾸고 동일하게 진행하면 됩니다.
+처음 게시 전 npm 로그인 필요: `npm login`.
+
+### 버전 올리기
+
+[Semver](https://semver.org/lang/ko/) 를 따릅니다.
+
+```bash
+npm version patch   # 0.1.0 → 0.1.1 (호환되는 버그 수정)
+npm version minor   # 0.1.0 → 0.2.0 (호환되는 기능 추가)
+npm version major   # 0.1.0 → 1.0.0 (breaking change)
+```
+
+`schemaVersion` 변경(노드 모델 진화) 시 반드시 `migrations.ts` 에 변환 함수를 추가하고 minor 이상 올립니다.
+
 ## 라이선스
 
-MIT.
+[MIT](./LICENSE).

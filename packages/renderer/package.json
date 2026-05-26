@@ -16,13 +16,19 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
+  "engines": {
+    "node": ">=18.17"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "clean": "rm -rf dist",
-    "prepublishOnly": "npm run clean && npm run build"
+    "prepublishOnly": "npm run clean && npm run build",
+    "publish:dry": "npm publish --dry-run",
+    "publish:public": "npm publish --access public"
   },
   "peerDependencies": {
     "react": "^19",
@@ -44,7 +50,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lightsoft-dev/sketchbook.git",
+    "url": "git+https://github.com/lightsoft-dev/sketchbook.git",
     "directory": "packages/renderer"
   },
   "keywords": [
