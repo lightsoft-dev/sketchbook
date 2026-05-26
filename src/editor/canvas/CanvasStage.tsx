@@ -21,6 +21,7 @@ import { useEditorStore } from "../state/store";
 import { CanvasFrame } from "./CanvasFrame";
 import { setCanvasDoc as registerCanvasDoc } from "./canvas-doc";
 import { EditableText } from "./EditableText";
+import { FlowReorderOverlay } from "./FlowReorderOverlay";
 import { SelectionOverlay } from "./SelectionOverlay";
 
 /** edit 모드 전용 CSS — 호버만 표시(선택 표시는 SelectionOverlay 가 담당). */
@@ -78,6 +79,7 @@ export function CanvasStage() {
           }}
         />
         <NodeRenderer nodeId={doc.rootId} ctx={ctx} />
+        <FlowReorderOverlay canvasDoc={canvasDoc} />
         <SelectionOverlay canvasDoc={canvasDoc} />
       </CanvasFrame>
     </div>

@@ -1,0 +1,48 @@
+Total messages: 7 (Errors: 1, Warnings: 0)
+Returning 1 messages for level "error"
+
+[ERROR] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <EditorPage>
+      <EditorClient bundle={{pageId:"cm...", ...}}>
+        ...
+          <div className="flex min-h...">
+            <aside className="flex w-60 ...">
+              <ComponentPalette>
+              <div className="min-h-0 fl...">
+                <LayersPanel>
+                  <DndContext sensors={[...]} collisionDetection={function closestCenter} ...>
+                    <div className="flex h-ful...">
+                      <div>
+                      <div className="flex-1 ove...">
+                        <NodeRow id="n_root" depth={0} dragDisabled={true}>
+                          <div
+                            ref={function useCombinedRefs.useMemo}
+                            style={{transform:undefined,transition:undefined,paddingLeft:8,opacity:1}}
+                            role="button"
+                            tabIndex={0}
+                            aria-disabled={true}
+                            aria-pressed={undefined}
+                            aria-roledescription="sortable"
++                           aria-describedby="DndDescribedBy-0"
+-                           aria-describedby="DndDescribedBy-1"
+                            onClick={function onClick}
+                            onMouseEnter={function onMouseEnter}
+                            onMouseLeave={function onMouseLeave}
+                            className="group flex items-center gap-1.5 py-1 pr-2 text-[13px] cursor-default text-neutr..."
+                          >
+                    ...
+                    ...
+            ...
+ @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3318
