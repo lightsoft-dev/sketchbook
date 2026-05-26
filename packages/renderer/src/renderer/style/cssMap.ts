@@ -119,6 +119,8 @@ export function stylePropsToCss(props: StyleProps): Record<string, string> {
   }
   set("text-align", props.textAlign);
   set("text-transform", props.textTransform);
+  set("font-style", props.fontStyle);
+  set("text-decoration", props.textDecoration);
 
   // 이미지
   set("object-fit", props.objectFit);

@@ -33,6 +33,12 @@ export {
 } from "./document/schema";
 export { migrate, isFutureVersion } from "./document/migrations";
 export { createSampleDocument } from "./document/fixtures";
+export {
+  FONT_PRESETS,
+  findFontPreset,
+  getGoogleFontsUrl,
+  type FontPreset,
+} from "./document/font-presets";
 
 // ── 렌더러 ──
 export { NodeRenderer, type RenderContext, type RenderMode } from "./renderer/NodeRenderer";

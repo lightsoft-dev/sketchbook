@@ -124,6 +124,8 @@ export interface StyleProps {
   letterSpacing?: Length;
   textAlign?: "left" | "center" | "right" | "justify";
   textTransform?: "none" | "uppercase" | "lowercase" | "capitalize";
+  fontStyle?: "normal" | "italic";
+  textDecoration?: "none" | "underline" | "line-through";
 
   // ── 이미지 ──
   objectFit?: "cover" | "contain" | "fill" | "none";

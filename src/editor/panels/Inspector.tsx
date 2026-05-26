@@ -7,18 +7,23 @@
 
 "use client";
 
-import type { BoxValue, Length, Node, StyleProps } from "@sketchbook/renderer";
+import type { Node, StyleProps } from "@sketchbook/renderer";
 import { applyLayoutModeChange } from "../canvas/layout-convert";
 import { useEditorStore } from "../state/store";
 import { AICopyButton } from "./AICopyButton";
 import { AIImageButton } from "./AIImageButton";
 import {
+  AlignmentGrid,
+  BoxField,
   ColorField,
+  FontFamilyField,
   Row,
   Section,
   Segmented,
   SelectField,
+  SizeControl,
   TextField,
+  ToggleIconButton,
   dimensionToString,
   parseDimension,
 } from "./controls";
@@ -27,10 +32,6 @@ import {
 function resolveStyleAt(node: Node, bp: "base" | "tablet" | "mobile"): StyleProps {
   if (bp === "base") return node.style.base;
   return { ...node.style.base, ...(node.style[bp] ?? {}) };
-}
-
-function uniformBox(n: Length): BoxValue {
-  return { top: n, right: n, bottom: n, left: n };
 }
 
 export function Inspector() {
@@ -162,7 +163,7 @@ export function Inspector() {
         </Section>
       )}
 
-      {/* 레이아웃 (Frame) */}
+      {/* 레이아웃 (Frame) — 9분면 정렬 위젯 */}
       {node.type === "Frame" && (
         <Section title="레이아웃">
           <Row label="방향">
@@ -175,6 +176,27 @@ export function Inspector() {
               onChange={(v) => setStyle({ display: "flex", flexDirection: v })}
             />
           </Row>
+          <Row label="정렬">
+            <AlignmentGrid
+              flexDirection={style.flexDirection ?? "column"}
+              justifyContent={style.justifyContent}
+              alignItems={style.alignItems}
+              onChange={(justify, align) =>
+                setStyle({ justifyContent: justify, alignItems: align })
+              }
+            />
+          </Row>
+          <Row label="분배">
+            <SelectField
+              value={style.justifyContent ?? "flex-start"}
+              options={[
+                { value: "flex-start", label: "기본" },
+                { value: "space-between", label: "양끝 분배" },
+                { value: "space-around", label: "균등 분배" },
+              ]}
+              onChange={(v) => setStyle({ justifyContent: v })}
+            />
+          </Row>
           <Row label="간격">
             <TextField
               value={dimensionToString(style.gap)}
@@ -182,37 +204,22 @@ export function Inspector() {
               onChange={(v) => setStyle({ gap: parseDimension(v) })}
             />
           </Row>
-          <Row label="가로 정렬">
-            <SelectField
-              value={style.justifyContent ?? "flex-start"}
-              options={ALIGN_OPTIONS}
-              onChange={(v) => setStyle({ justifyContent: v })}
-            />
-          </Row>
-          <Row label="세로 정렬">
-            <SelectField
-              value={style.alignItems ?? "flex-start"}
-              options={ALIGN_OPTIONS}
-              onChange={(v) => setStyle({ alignItems: v })}
-            />
-          </Row>
         </Section>
       )}
 
-      {/* 크기 & 위치 */}
+      {/* 크기 — Hug / Fill / Fixed */}
       <Section title="크기">
         <Row label="너비">
-          <TextField
-            value={dimensionToString(style.width)}
-            placeholder="auto"
-            onChange={(v) => setStyle({ width: parseDimension(v) })}
+          <SizeControl
+            value={style.width}
+            onChange={(v) => setStyle({ width: v })}
           />
         </Row>
         <Row label="높이">
-          <TextField
-            value={dimensionToString(style.height)}
+          <SizeControl
+            value={style.height}
+            onChange={(v) => setStyle({ height: v })}
             placeholder="auto"
-            onChange={(v) => setStyle({ height: parseDimension(v) })}
           />
         </Row>
         {!isRoot && (
@@ -229,33 +236,31 @@ export function Inspector() {
         )}
       </Section>
 
-      {/* 여백 */}
+      {/* 여백 — 4방향 BoxField */}
       <Section title="여백">
-        <Row label="안쪽(padding)">
-          <TextField
-            value={dimensionToString(style.padding?.top)}
-            placeholder="0"
-            onChange={(v) => {
-              const d = parseDimension(v);
-              setStyle({ padding: d === undefined ? undefined : uniformBox(d) });
-            }}
+        <Row label="안쪽">
+          <BoxField
+            value={style.padding}
+            onChange={(v) => setStyle({ padding: v })}
           />
         </Row>
-        <Row label="바깥(margin)">
-          <TextField
-            value={dimensionToString(style.margin?.top)}
-            placeholder="0"
-            onChange={(v) => {
-              const d = parseDimension(v);
-              setStyle({ margin: d === undefined ? undefined : uniformBox(d) });
-            }}
+        <Row label="바깥">
+          <BoxField
+            value={style.margin}
+            onChange={(v) => setStyle({ margin: v })}
           />
         </Row>
       </Section>
 
-      {/* 타이포 */}
+      {/* 텍스트 — fontFamily / 크기 / 굵기 / 행간 / 자간 / 정렬 / 변환 / 스타일 / 색상 */}
       {(node.type === "Text" || node.type === "Button") && (
         <Section title="텍스트">
+          <Row label="폰트">
+            <FontFamilyField
+              value={style.fontFamily}
+              onChange={(v) => setStyle({ fontFamily: v })}
+            />
+          </Row>
           <Row label="크기">
             <TextField
               value={dimensionToString(style.fontSize)}
@@ -276,6 +281,20 @@ export function Inspector() {
               onChange={(v) => setStyle({ fontWeight: Number(v) })}
             />
           </Row>
+          <Row label="행간">
+            <TextField
+              value={dimensionToString(style.lineHeight)}
+              placeholder="1.5"
+              onChange={(v) => setStyle({ lineHeight: parseDimension(v) })}
+            />
+          </Row>
+          <Row label="자간">
+            <TextField
+              value={dimensionToString(style.letterSpacing)}
+              placeholder="0"
+              onChange={(v) => setStyle({ letterSpacing: parseDimension(v) })}
+            />
+          </Row>
           <Row label="정렬">
             <Segmented
               value={style.textAlign ?? "left"}
@@ -286,6 +305,59 @@ export function Inspector() {
               ]}
               onChange={(v) => setStyle({ textAlign: v })}
             />
+          </Row>
+          <Row label="변환">
+            <SelectField
+              value={style.textTransform ?? "none"}
+              options={[
+                { value: "none", label: "기본" },
+                { value: "uppercase", label: "ALL CAPS" },
+                { value: "lowercase", label: "all lower" },
+                { value: "capitalize", label: "Title Case" },
+              ]}
+              onChange={(v) =>
+                setStyle({ textTransform: v === "none" ? undefined : v })
+              }
+            />
+          </Row>
+          <Row label="스타일">
+            <div className="flex items-center gap-1">
+              <ToggleIconButton
+                active={style.fontStyle === "italic"}
+                onClick={() =>
+                  setStyle({
+                    fontStyle: style.fontStyle === "italic" ? undefined : "italic",
+                  })
+                }
+                title="이탤릭"
+              >
+                <span style={{ fontStyle: "italic", fontWeight: 600 }}>I</span>
+              </ToggleIconButton>
+              <ToggleIconButton
+                active={style.textDecoration === "underline"}
+                onClick={() =>
+                  setStyle({
+                    textDecoration:
+                      style.textDecoration === "underline" ? undefined : "underline",
+                  })
+                }
+                title="밑줄"
+              >
+                <span style={{ textDecoration: "underline", fontWeight: 600 }}>U</span>
+              </ToggleIconButton>
+              <ToggleIconButton
+                active={style.textDecoration === "line-through"}
+                onClick={() =>
+                  setStyle({
+                    textDecoration:
+                      style.textDecoration === "line-through" ? undefined : "line-through",
+                  })
+                }
+                title="취소선"
+              >
+                <span style={{ textDecoration: "line-through", fontWeight: 600 }}>S</span>
+              </ToggleIconButton>
+            </div>
           </Row>
           <Row label="색상">
             <ColorField
@@ -311,26 +383,12 @@ export function Inspector() {
           />
         </Row>
         <Row label="모서리">
-          <TextField
-            value={dimensionToString(style.borderRadius?.top)}
-            placeholder="0"
-            onChange={(v) => {
-              const d = parseDimension(v);
-              setStyle({
-                borderRadius: d === undefined ? undefined : uniformBox(d),
-              });
-            }}
+          <BoxField
+            value={style.borderRadius}
+            onChange={(v) => setStyle({ borderRadius: v })}
           />
         </Row>
       </Section>
     </div>
   );
 }
-
-const ALIGN_OPTIONS = [
-  { value: "flex-start" as const, label: "시작" },
-  { value: "center" as const, label: "가운데" },
-  { value: "flex-end" as const, label: "끝" },
-  { value: "space-between" as const, label: "양끝" },
-  { value: "stretch" as const, label: "늘이기" },
-];

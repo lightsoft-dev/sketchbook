@@ -3,9 +3,11 @@
  *
  * 게시 페이지(RSC)와 에디터 캔버스가 공유한다. 게시 시 이 출력은 JS 가 거의 없는
  * 정적 HTML + 인라인 CSS 이고, media query 로 반응형이 동작한다.
+ * 사용된 Google Fonts 가 있으면 한 줄의 `<link>` 를 함께 주입한다.
  */
 
 import type { JSX } from "react";
+import { getGoogleFontsUrl } from "../document/font-presets";
 import type { PageDocument } from "../document/types";
 import { compileDocument } from "./style/compiler";
 import { SK_RESET } from "./style/reset";
@@ -19,9 +21,13 @@ export function PageRenderer({
   mode?: RenderMode;
 }): JSX.Element {
   const compiled = compileDocument(doc);
+  const fontsUrl = getGoogleFontsUrl(doc);
 
   return (
     <>
+      {fontsUrl && (
+        <link rel="stylesheet" href={fontsUrl} data-sk-fonts="" />
+      )}
       <style
         data-sk-styles=""
         // 컴파일된 CSS 는 우리 StyleCompiler 가 만든 신뢰 가능한 문자열.

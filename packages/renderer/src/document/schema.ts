@@ -88,6 +88,8 @@ const zStyleProps = z
     letterSpacing: zLength,
     textAlign: z.enum(["left", "center", "right", "justify"]),
     textTransform: z.enum(["none", "uppercase", "lowercase", "capitalize"]),
+    fontStyle: z.enum(["normal", "italic"]),
+    textDecoration: z.enum(["none", "underline", "line-through"]),
     objectFit: z.enum(["cover", "contain", "fill", "none"]),
   })
   .partial();

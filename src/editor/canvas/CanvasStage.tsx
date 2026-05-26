@@ -8,10 +8,15 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { BREAKPOINTS, type NodeId } from "@sketchbook/renderer";
-import { compileDocument } from "@sketchbook/renderer";
-import { SK_RESET } from "@sketchbook/renderer";
-import { NodeRenderer, type RenderContext } from "@sketchbook/renderer";
+import {
+  BREAKPOINTS,
+  compileDocument,
+  getGoogleFontsUrl,
+  NodeRenderer,
+  SK_RESET,
+  type NodeId,
+  type RenderContext,
+} from "@sketchbook/renderer";
 import { useEditorStore } from "../state/store";
 import { CanvasFrame } from "./CanvasFrame";
 import { setCanvasDoc as registerCanvasDoc } from "./canvas-doc";
@@ -40,6 +45,7 @@ export function CanvasStage() {
     BREAKPOINTS.find((b) => b.id === activeBreakpoint)?.canvasWidth ?? 1280;
 
   const compiled = useMemo(() => compileDocument(doc), [doc]);
+  const fontsUrl = useMemo(() => getGoogleFontsUrl(doc), [doc]);
 
   const onDocument = useCallback((d: Document) => {
     setCanvasDoc(d);
@@ -65,6 +71,7 @@ export function CanvasStage() {
   return (
     <div className="flex h-full w-full justify-center overflow-auto bg-neutral-200 p-8">
       <CanvasFrame width={width} onDocument={onDocument}>
+        {fontsUrl && <link rel="stylesheet" href={fontsUrl} />}
         <style
           dangerouslySetInnerHTML={{
             __html: SK_RESET + EDITOR_CSS + compiled.css,

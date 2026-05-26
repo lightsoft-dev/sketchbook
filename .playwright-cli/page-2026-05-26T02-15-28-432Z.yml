@@ -1,0 +1,25 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - heading "어딘가, 첫 한 잔" [level=1] [ref=e4]
+      - paragraph [ref=e5]: 도심 속 작은 로스터리. 매일 아침 직접 볶은 원두로 내립니다.
+      - link "메뉴 보기" [ref=e6] [cursor=pointer]:
+        - /url: "#menu"
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - heading "싱글 오리진" [level=3] [ref=e9]
+        - paragraph [ref=e10]: 산지별 개성이 살아 있는 원두만 골라 소량으로 로스팅합니다.
+      - generic [ref=e11]:
+        - heading "느린 공간" [level=3] [ref=e12]
+        - paragraph [ref=e13]: 분주한 도심에서 잠시 멈춰 갈 수 있는 조용한 자리를 준비했어요.
+      - generic [ref=e14]:
+        - heading "매일 베이킹" [level=3] [ref=e15]
+        - paragraph [ref=e16]: 커피와 어울리는 구움과자를 매장에서 직접 굽습니다.
+    - generic [ref=e17]:
+      - heading "오늘, 한 잔 하러 오세요" [level=2] [ref=e18]
+      - paragraph [ref=e19]: 서울시 어딘가 1-2 · 매일 09:00–21:00
+      - link "길찾기" [ref=e20] [cursor=pointer]:
+        - /url: https://map.example.com
+  - button "Open Next.js Dev Tools" [ref=e26] [cursor=pointer]:
+    - img [ref=e27]
+  - alert [ref=e30]
