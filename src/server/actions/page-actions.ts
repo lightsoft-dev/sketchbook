@@ -11,8 +11,8 @@
 import "server-only";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { validatePageDocument } from "@/document/schema";
-import type { PageDocument } from "@/document/types";
+import { validatePageDocument } from "@sketchbook/renderer";
+import type { PageDocument } from "@sketchbook/renderer";
 
 const DEFAULT_SITE_SLUG = "main";
 

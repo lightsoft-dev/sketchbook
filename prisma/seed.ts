@@ -4,7 +4,7 @@
  */
 
 import { PrismaClient } from "@prisma/client";
-import { createSampleDocument } from "../src/document/fixtures";
+import { createSampleDocument } from "@sketchbook/renderer";
 
 const prisma = new PrismaClient();
 

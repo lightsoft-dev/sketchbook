@@ -10,8 +10,8 @@
 
 import "server-only";
 import { z } from "zod";
-import type { PageDocument } from "@/document/types";
-import { walk } from "@/document/tree";
+import type { PageDocument } from "@sketchbook/renderer";
+import { walk } from "@sketchbook/renderer";
 import { extractText, getAnthropic, MissingApiKeyError, MODELS } from "./client";
 
 // ── 클라이언트와 공유되는 PatchOp 타입 ──

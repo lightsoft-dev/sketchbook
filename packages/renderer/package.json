@@ -1,0 +1,58 @@
+{
+  "name": "@sketchbook/renderer",
+  "version": "0.1.0",
+  "description": "Sketchbook 노드 트리 PageDocument 모델 + 유니버설 렌더러. 어디서 렌더하든 동일한 결과를 보장한다.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "dependencies": {
+    "nanoid": "^5.1.11",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tsup": "^8.5.0",
+    "typescript": "^5"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lightsoft-dev/sketchbook.git",
+    "directory": "packages/renderer"
+  },
+  "keywords": [
+    "cms",
+    "page-builder",
+    "renderer",
+    "node-tree",
+    "react",
+    "nextjs"
+  ]
+}

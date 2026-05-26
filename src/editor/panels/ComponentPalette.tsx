@@ -4,7 +4,7 @@
 
 "use client";
 
-import type { NodeId, NodeType } from "@/document/types";
+import type { NodeId, NodeType } from "@sketchbook/renderer";
 import { useEditorStore } from "../state/store";
 
 const ITEMS: { type: NodeType; label: string; icon: string }[] = [

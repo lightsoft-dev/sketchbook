@@ -10,11 +10,11 @@
 
 import { applyPatches, enablePatches, produceWithPatches, type Patch } from "immer";
 import { create } from "zustand";
-import type { BreakpointId, Node, NodeId, PageDocument } from "@/document/types";
-import { createNode, type CreateNodeOptions } from "@/document/defaults";
-import { newNodeId } from "@/document/ids";
-import { getDescendants } from "@/document/tree";
-import type { NodeType } from "@/document/types";
+import type { BreakpointId, Node, NodeId, PageDocument } from "@sketchbook/renderer";
+import { createNode, type CreateNodeOptions } from "@sketchbook/renderer";
+import { newNodeId } from "@sketchbook/renderer";
+import { getDescendants } from "@sketchbook/renderer";
+import type { NodeType } from "@sketchbook/renderer";
 import {
   cmdDeleteNode,
   cmdInsertNode,

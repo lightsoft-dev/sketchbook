@@ -12,8 +12,8 @@ import type {
   NodeId,
   PageDocument,
   StyleProps,
-} from "@/document/types";
-import { getDescendants } from "@/document/tree";
+} from "@sketchbook/renderer";
+import { getDescendants } from "@sketchbook/renderer";
 
 export type Mutator = (draft: PageDocument) => void;
 

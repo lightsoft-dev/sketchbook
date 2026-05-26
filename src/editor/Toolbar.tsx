@@ -5,7 +5,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { BREAKPOINTS } from "@/document/types";
+import { BREAKPOINTS } from "@sketchbook/renderer";
 import { publishPage } from "@/server/actions/page-actions";
 import { AIGenerateButton } from "./AIGenerateButton";
 import { useEditorStore } from "./state/store";

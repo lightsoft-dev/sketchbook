@@ -11,10 +11,10 @@
 
 import "server-only";
 import { z } from "zod";
-import { CURRENT_SCHEMA_VERSION, type PageDocument, type TreeNode } from "@/document/types";
-import { flatten } from "@/document/tree";
-import { newDocId } from "@/document/ids";
-import { validatePageDocument } from "@/document/schema";
+import { CURRENT_SCHEMA_VERSION, type PageDocument, type TreeNode } from "@sketchbook/renderer";
+import { flatten } from "@sketchbook/renderer";
+import { newDocId } from "@sketchbook/renderer";
+import { validatePageDocument } from "@sketchbook/renderer";
 import { prisma } from "@/lib/db";
 import { extractText, getAnthropic, MissingApiKeyError, MODELS } from "./client";
 

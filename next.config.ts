@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  // 모노레포 workspace 패키지는 Next 가 직접 트랜스파일해야 한다(TS 소스 그대로 import).
+  transpilePackages: ["@sketchbook/renderer"],
 };
 
 export default nextConfig;

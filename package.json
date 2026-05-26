@@ -2,6 +2,9 @@
   "name": "sketchbook",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,7 +14,9 @@
     "test": "vitest run",
     "db:up": "docker compose up -d",
     "db:seed": "tsx prisma/seed.ts",
-    "db:reset": "prisma migrate reset --force --skip-seed"
+    "db:reset": "prisma migrate reset --force --skip-seed",
+    "build:renderer": "npm run build -w @sketchbook/renderer",
+    "dev:renderer": "npm run dev -w @sketchbook/renderer"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -19,6 +24,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.98.0",
     "@prisma/client": "^6.19.3",
+    "@sketchbook/renderer": "*",
     "immer": "^11.1.8",
     "nanoid": "^5.1.11",
     "next": "16.2.6",

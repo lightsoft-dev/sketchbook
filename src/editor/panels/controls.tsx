@@ -5,7 +5,7 @@
 "use client";
 
 import type { ChangeEvent, ReactNode } from "react";
-import type { Length } from "@/document/types";
+import type { Length } from "@sketchbook/renderer";
 
 export function Section({ title, children }: { title: string; children: ReactNode }) {
   return (

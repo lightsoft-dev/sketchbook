@@ -3,8 +3,8 @@
  * DB 연결 전까지 렌더러를 즉시 확인하는 용도.
  */
 
-import { createSampleDocument } from "@/document/fixtures";
-import { PageRenderer } from "@/renderer/PageRenderer";
+import { createSampleDocument } from "@sketchbook/renderer";
+import { PageRenderer } from "@sketchbook/renderer";
 
 export const dynamic = "force-dynamic";
 

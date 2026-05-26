@@ -9,7 +9,7 @@
 "use client";
 
 import { useEffect, useRef, type KeyboardEvent } from "react";
-import type { TextNode } from "@/document/types";
+import type { TextNode } from "@sketchbook/renderer";
 import { useEditorStore } from "../state/store";
 
 export function EditableText({

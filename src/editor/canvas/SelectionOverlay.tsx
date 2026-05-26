@@ -8,7 +8,7 @@
 "use client";
 
 import { useEffect, useState, type PointerEvent as ReactPointerEvent } from "react";
-import type { NodeId } from "@/document/types";
+import type { NodeId } from "@sketchbook/renderer";
 import { useEditorStore } from "../state/store";
 import { cssEscape } from "./canvas-doc";
 

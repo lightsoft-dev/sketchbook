@@ -8,10 +8,10 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { BREAKPOINTS, type NodeId } from "@/document/types";
-import { compileDocument } from "@/renderer/style/compiler";
-import { SK_RESET } from "@/renderer/style/reset";
-import { NodeRenderer, type RenderContext } from "@/renderer/NodeRenderer";
+import { BREAKPOINTS, type NodeId } from "@sketchbook/renderer";
+import { compileDocument } from "@sketchbook/renderer";
+import { SK_RESET } from "@sketchbook/renderer";
+import { NodeRenderer, type RenderContext } from "@sketchbook/renderer";
 import { useEditorStore } from "../state/store";
 import { CanvasFrame } from "./CanvasFrame";
 import { setCanvasDoc as registerCanvasDoc } from "./canvas-doc";

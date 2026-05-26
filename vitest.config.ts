@@ -5,10 +5,16 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+      "@sketchbook/renderer": fileURLToPath(
+        new URL("./packages/renderer/src/index.ts", import.meta.url),
+      ),
     },
   },
   test: {
     environment: "node",
-    include: ["src/**/*.test.{ts,tsx}"],
+    include: [
+      "src/**/*.test.{ts,tsx}",
+      "packages/*/src/**/*.test.{ts,tsx}",
+    ],
   },
 });

@@ -7,7 +7,7 @@
 
 "use client";
 
-import type { BoxValue, Length, Node, StyleProps } from "@/document/types";
+import type { BoxValue, Length, Node, StyleProps } from "@sketchbook/renderer";
 import { applyLayoutModeChange } from "../canvas/layout-convert";
 import { useEditorStore } from "../state/store";
 import { AICopyButton } from "./AICopyButton";

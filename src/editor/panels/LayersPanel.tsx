@@ -4,8 +4,8 @@
 
 "use client";
 
-import { walk } from "@/document/tree";
-import type { NodeId, NodeType } from "@/document/types";
+import { walk } from "@sketchbook/renderer";
+import type { NodeId, NodeType } from "@sketchbook/renderer";
 import { useEditorStore } from "../state/store";
 
 const TYPE_ICON: Record<NodeType, string> = {

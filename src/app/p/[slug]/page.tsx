@@ -5,7 +5,7 @@
 
 import { notFound } from "next/navigation";
 import { getPublishedDocument } from "@/server/actions/page-actions";
-import { PageRenderer } from "@/renderer/PageRenderer";
+import { PageRenderer } from "@sketchbook/renderer";
 
 export const dynamic = "force-static";
 export const revalidate = false;

@@ -5,9 +5,9 @@
 
 "use client";
 
-import { newNodeId } from "@/document/ids";
-import { flatten } from "@/document/tree";
-import type { BreakpointId, Node, NodeId, PageDocument, StyleProps, TreeNode } from "@/document/types";
+import { newNodeId } from "@sketchbook/renderer";
+import { flatten } from "@sketchbook/renderer";
+import type { BreakpointId, Node, NodeId, PageDocument, StyleProps, TreeNode } from "@sketchbook/renderer";
 import type { ChatPatchOp } from "@/server/ai/chat-edit";
 import { useEditorStore } from "./store";
 
