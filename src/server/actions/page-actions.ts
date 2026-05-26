@@ -116,7 +116,11 @@ export async function publishPage(
   });
 
   // ISR 무효화 — 같은 슬러그 게시 라우트를 다시 만들도록.
+  // 게시 페이지 + 헤드리스 API 경로 모두 캐시 무효화.
   revalidatePath(`/p/${page.slug}`);
+  revalidatePath(`/api/v1/sites/${page.site.slug}/pages/${page.slug}`);
+  revalidatePath(`/api/v1/sites/${page.site.slug}/pages`);
+  revalidatePath(`/api/v1/sites/${page.site.slug}`);
 
   return { ok: true, publishedVersionId: result.id };
 }

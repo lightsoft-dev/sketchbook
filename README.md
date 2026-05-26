@@ -11,6 +11,8 @@ Figma 처럼 비주얼 편집되고, 편집한 그대로 즉시 게시되는 CMS
 - **`packages/renderer`** — [`@sketchbook/renderer`](./packages/renderer/README.md) 독립 npm 패키지
   - 노드 트리 `PageDocument` 모델 + 유니버설 렌더러
   - 다른 Next.js 앱이 그대로 import 해서 게시 페이지를 렌더할 수 있음
+- **헤드리스 REST API** — `/api/v1/sites/[siteSlug]/pages/[pageSlug]` 로 PageDocument JSON 직접 fetch
+  - CORS 오픈 + ETag/Cache-Control 적용. 자세한 사용법은 [AGENTS.md → 헤드리스 사용](./AGENTS.md#헤드리스-사용--rest-api)
 
 ## 시작하기
 
